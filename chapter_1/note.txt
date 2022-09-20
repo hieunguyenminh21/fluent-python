@@ -1,0 +1,57 @@
+- Best quality of Python is (consistency: Tính nhất quán)
+- len(collection) instead of collection.len() -> Pythonic
+- Python Data Model (API): data model as a description of Python as a framework
+- Khi build các class mới, Python Interpreter gọi các methods đặc biệt (basic object operations) với
+syntax đặc biệt (__method__()).
+VD: Khi gọi đến obj[key], Python sẽ gọi obj.__getitem__(key)
+- Chỉ implement các syntax đặc biệt khi object đó cần tương tác với các cấu trúc ngôn ngữ cơ bản như:
+    • Collections
+    • Attribute access
+    • Iteration (including asynchronous iteration using async for )
+    • Operator overloading
+    • Function and method invocation
+    • String representation and formatting
+    • Asynchronous programming using await
+    • Object creation and destruction
+    • Managed contexts using the with or async with statements
+- CẢNH BÁO: không nên implement các syntax đặc biệt khi không cần thiết, code có thể  hỏng mà không có warning
+
+- Lợi ích của việc tận dụng special methods:
+    • Không cần phải nhớ các standard method
+    VD: (“How to get the number of items? Is it .size(), .length(), or what?”
+    • Tận dụng các tính năng của Python, tránh việc phát minh lại bánh xe bò:
+    VD: random.choice -> Không cần phải implement cái này mà đã có sẵn
+    • Hơn thế nữa:
+    VD: Với hàm __getitem__, nó đang tận dụng toán tử [] của Python, do đó ta có thể slice cái Object kia
+    french_deck[:3], ngoài ra còn có thể iterate cái Object đó luôn.
+-----------------------------------------------
+namedtuple: tạo ra class mới với các field được định nghĩa trước, không gồm các method (tương tự record trong 
+database)
+- Cách tạo namedtuple:
+    from collections import namedtuple
+    Point = namedtuple('Point', ['x', 'y'])
+    p = Point(11, y=22) # instantiate with positional or keyword arguments
+    x, y = p # unpack
+    p.x + p.y # fields also accessible by name
+    p[0] + p[1] # indexable like the plain tuple (11, 22)
+
+-----------------------------------------------
+list(string): tạo ra list các ký tự trong string
+- Cách tạo list(string):
+    list('abc') # ['a', 'b', 'c']
+
+-----------------------------------------------
+random.choice: Chọn ngẫu nhiên 1 phần tử trong sequence
+- Cách sử dụng random.choice:
+    random.choice('abcdefghij') # 'e'
+    random.choice(['apple', 'pear', 'banana']) # 'apple'
+    random.choice(('apple', 'pear', 'banana')) # 'pear'
+    random.choice({'apple':1, 'pear':2, 'banana':3}) # 'ERROR' -> Vì dict không có thứ tự, nên không thể chọn
+    ngẫu nhiên 1 phần tử trong dict. Nếu muốn, thì dùng random.choice(list(dict.keys())) hoặc
+    random.choice(list(dict.values()))
+
+-----------------------------------------------
+slicing in list:
+french_deck[12::13] -> Chọn từ index 12, step = 13
+
+-----------------------------------------------
